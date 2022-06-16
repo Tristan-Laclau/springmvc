@@ -11,6 +11,23 @@
 <body>
 	<div layout:fragment="content">
 		<div class="container">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">Categories</a>
+					</div>
+					
+						<ul class="nav navbar-nav" th:each="c:${listCategory}">
+							<li th:text="${c.name}"><a href="#"></a></li>
+						</ul>
+				</div>
+			</nav>
+
+
+
+
+
+
 			<div class="panel panel-primary">
 				<div class="panel-heading">Liste des articles</div>
 

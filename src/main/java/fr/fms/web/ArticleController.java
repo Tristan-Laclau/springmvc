@@ -1,5 +1,7 @@
 package fr.fms.web;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +11,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.fms.dao.ArticleRepository;
+import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
+import fr.fms.entities.Category;
 
 @Controller
 public class ArticleController {
 	@Autowired
 	ArticleRepository articleRepository;
+	
+	@Autowired
+	CategoryRepository categoryRepository;
 	
 	//@RequestMapping(value="/index" , method=RequestMethod.GET)
 	@GetMapping("/index")
@@ -28,7 +34,12 @@ public class ArticleController {
 		Page<Article> articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
 		
 		model.addAttribute("listArticle",articles.getContent()); //Insertion de tous les articles dans le modèle
-													//Accessible via l'attribut "listArticle"
+																//Accessible via l'attribut "listArticle"
+		
+		
+		List<Category> categories = categoryRepository.findAll();
+		model.addAttribute("listCategory", categories);
+		
 		model.addAttribute("keyword",kw);
 		
 		model.addAttribute("pages",new int [articles.getTotalPages()]);
@@ -48,12 +59,14 @@ public class ArticleController {
 	}
 	
 	@GetMapping("/article")
-	public String article() {
+	public String article(Model model) {
+		model.addAttribute("article", new Article());
 		return "article";
 	}
 	
+	//@RequestMapping(value="/article" , method=RequestMethod.POST)
 	@PostMapping("/save")
-	public String save(Model model,@ModelAttribute("Article") @Valid Article article, BindingResult bindingResult) {
+	public String save(@Valid Article article, BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors()) return "article";
 		articleRepository.save(article);

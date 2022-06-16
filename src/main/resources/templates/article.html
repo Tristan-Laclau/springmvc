@@ -20,13 +20,15 @@
 					<form th:action="@{/save}" method="post">
 						<div class="form-group">
 							<label class="control-label"> Description : </label> <input
-								class="form-control" type="text" name="description">
-								<span th:errors="${article.description}"></span>
+								class="form-control" type="text" name="description"
+								th:value="${article.description}"> <span
+								th:errors="${article.description}"></span>
 						</div>
 						<div class="form-group">
 							<label class="control-label"> Price : </label> <input
-								class="form-control" type="number" name="price">
-								<span th:errors="${article.price}"></span>
+								class="form-control" type="number" name="price"
+								th:value="${article.price}"> <span
+								th:errors="${article.price}"></span>
 						</div>
 						<button type="submit" class="btn btn-primary">Save</button>
 					</form>
