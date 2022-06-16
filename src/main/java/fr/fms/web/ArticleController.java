@@ -30,8 +30,11 @@ public class ArticleController {
 	//@RequestMapping(value="/index" , method=RequestMethod.GET)
 	@GetMapping("/index")
 	public String index(Model model, @RequestParam(name="page",defaultValue = "0") int page,
-			@RequestParam(name="keyword" , defaultValue = "") String kw) {
-		Page<Article> articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
+			@RequestParam(name="keyword" , defaultValue = "") String kw, @RequestParam(name="category", defaultValue="") Long catId) {
+		
+		//Page<Article> articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
+		
+		Page<Article> articles = articleRepository.findByDescriptionContainsAndCategoryId(kw, catId, PageRequest.of(page, 5));
 		
 		model.addAttribute("listArticle",articles.getContent()); //Insertion de tous les articles dans le modèle
 																//Accessible via l'attribut "listArticle"
@@ -41,6 +44,8 @@ public class ArticleController {
 		model.addAttribute("listCategory", categories);
 		
 		model.addAttribute("keyword",kw);
+		
+		model.addAttribute("category",catId);
 		
 		model.addAttribute("pages",new int [articles.getTotalPages()]);
 		
