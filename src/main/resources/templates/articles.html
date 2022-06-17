@@ -15,14 +15,10 @@
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
 					<div class="navbar-header">
-						<a class="navbar-brand" th:href="@{/index(page=${currentPage} , keyword=${keyword})}">Categories</a>
+						<a class="navbar-brand" th:href="@{/index(page=0 , keyword=${keyword})}">Tous les articles</a>
 					</div>
-					
 						<ul class="nav navbar-nav" th:each="c:${listCategory}">
-						
-						<!--  th:class="${c.name==cat}?'active':''" -->
-						
-							<li><a  th:text="${c.name}" th:href="@{/index(page=${currentPage} , keyword=${keyword}, category=${c.id})}"> </a></li>
+							<li th:class="${c.id==category}?'active':''"><a  th:text="${c.name}" th:href="@{/index(page=0 , keyword=${keyword}, category=${c.id})}"> </a></li>
 						</ul>
 				</div>
 			</nav>
@@ -56,13 +52,15 @@
 							<td><a class="btn btn-danger"
 								th:href="@{/delete(id=${a.id} , page=${currentPage} , keyword=${keyword})}">
 									Delete </a>
+								<a class="btn btn-primary"
+								th:href="@{/update(id=${a.id})}">Edit</a>
 						</tr>
 
 					</table>
 					<ul class="nav nav-pills">
 						<li th:class="${currentPage==status.index}?'active':''"
 							th:each="page,status:${pages}"><a
-							th:href="@{/index(page=${status.index},keyword=${keyword})}"
+							th:href="@{/index(page=${status.index},keyword=${keyword}, category=${category})}"
 							th:text="${status.index}"> </a></li>
 					</ul>
 				</div>

@@ -30,17 +30,21 @@ public class ArticleController {
 	//@RequestMapping(value="/index" , method=RequestMethod.GET)
 	@GetMapping("/index")
 	public String index(Model model, @RequestParam(name="page",defaultValue = "0") int page,
-			@RequestParam(name="keyword" , defaultValue = "") String kw, @RequestParam(name="category", defaultValue="") Long catId) {
+			@RequestParam(name="keyword" , defaultValue = "") String kw, @RequestParam(name="category", defaultValue="-1") Long catId) {
 		
-		//Page<Article> articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
+		Page<Article> articles;
 		
-		Page<Article> articles = articleRepository.findByDescriptionContainsAndCategoryId(kw, catId, PageRequest.of(page, 5));
+		if(catId!=-1) {
+			articles = articleRepository.findByDescriptionContainsAndCategoryId(kw, catId, PageRequest.of(page, 5));
+		} else {
+			articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
+		}
 		
 		model.addAttribute("listArticle",articles.getContent()); //Insertion de tous les articles dans le modèle
 																//Accessible via l'attribut "listArticle"
 		
-		
 		List<Category> categories = categoryRepository.findAll();
+		
 		model.addAttribute("listCategory", categories);
 		
 		model.addAttribute("keyword",kw);
@@ -66,6 +70,13 @@ public class ArticleController {
 	@GetMapping("/article")
 	public String article(Model model) {
 		model.addAttribute("article", new Article());
+		return "article";
+	}
+	
+	@GetMapping("/update")
+	public String update(Long id, Model model) {
+		
+		model.addAttribute("article");
 		return "article";
 	}
 	

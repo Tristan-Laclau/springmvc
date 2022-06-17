@@ -25,10 +25,31 @@
 								th:errors="${article.description}"></span>
 						</div>
 						<div class="form-group">
-							<label class="control-label"> Price : </label> <input
+							<label class="control-label"> Marque : </label> <input
+								class="form-control" type="text" name="brand"
+								th:value="${article.brand}"> <span
+								th:errors="${article.brand}"></span>
+						</div>
+						<div class="form-group">
+							<label class="control-label"> Prix : </label> <input
 								class="form-control" type="number" name="price"
 								th:value="${article.price}"> <span
 								th:errors="${article.price}"></span>
+						</div>
+						<div class="from-group">
+<!-- 								<div class="dropdown"> -->
+<!-- 									<button class="btn btn-secondary dropdown-toggle" type="button" -->
+<!-- 										id="dropdownMenuButton1" data-bs-toggle="dropdown" -->
+<!-- 										aria-expanded="false">Selectionnez la categorie</button> -->
+<!-- 									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" th:each="c:${listCategory}"> -->
+<!-- 										<li><a th:class="dropdown-item" th:text="${c.name}" th:value="${c.id}"> Test </a></li> -->
+<!-- 									</ul> -->
+<!-- 								</div> -->
+							<label> Choisissez une catégorie</label>
+							<select th:each="c:${listCategory}">
+								<option th:text="${c.name}"></option>
+							</select>
+
 						</div>
 						<button type="submit" class="btn btn-primary">Save</button>
 					</form>
